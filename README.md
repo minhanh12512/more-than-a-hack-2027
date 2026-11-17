@@ -192,3 +192,18 @@ competition only, under the terms you accept at enrolment.
   url    = {https://github.com/metrica-sports/more-than-a-hack-2027}
 }
 ```
+
+---
+
+## How to reproduce our submission
+
+```bash
+pip install -r requirements-solution.txt          # numpy, pandas, pytest, pinned
+# put the match data in ./data (see data/README.md), then:
+python -m src.make_submission --out <team_name>.csv --dead signals
+python evaluation/validate_submission.py <team_name>.csv
+python -m src.presubmit <team_name>.csv --rerun "python -m src.make_submission --out <team_name>.csv --dead signals"
+python -m pytest tests -q
+```
+
+Method and limitations: [docs/technical_document.md](docs/technical_document.md).
