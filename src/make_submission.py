@@ -29,6 +29,14 @@ def write_csv(path, labels):
     return path
 
 
+def get_p_dead_fn(name):
+    if name == "signals":
+        from src.dead_ball import p_dead
+        return p_dead
+    from src.decode import default_p_dead
+    return default_p_dead
+
+
 def make_labels(p_dead_fn=None):
     from src.data import load_clean, load_raw
     from src.team import team_evidence
@@ -51,11 +59,15 @@ def baseline_labels(variant):
 def main(argv=None):
     parser = argparse.ArgumentParser(description=__doc__.splitlines()[0])
     parser.add_argument("--out", required=True, help="output csv, named <team_name>.csv")
+    parser.add_argument("--dead", choices=("placeholder", "signals"), default="placeholder",
+                        help="dead-ball model: the simple placeholder, or src/dead_ball.py signals. "
+                             "Switch the default only after the label-free checks look realistic "
+                             "on the real match.")
     parser.add_argument("--baseline", metavar="VARIANT",
                         help="write a provided baseline instead (raw, smooth25, smooth50, smooth125)")
     args = parser.parse_args(argv)
 
-    labels = baseline_labels(args.baseline) if args.baseline else make_labels()
+    labels = baseline_labels(args.baseline) if args.baseline else make_labels(get_p_dead_fn(args.dead))
     write_csv(args.out, labels)
     counts = {k: int(np.sum(labels == k)) for k in "HADX"}
     print("wrote {}  {}".format(args.out, counts))
