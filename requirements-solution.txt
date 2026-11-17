@@ -1,5 +1,5 @@
 # Everything needed to regenerate the submission and run the tests, pinned.
-# Verified together with Python 3.13 (the version used to develop and test this repository).
-numpy==2.5.3
-pandas==3.0.5
-pytest==9.1.1
+# Verified together with Python 3.11 (the version used to develop and test this repository).
+numpy==2.4.6
+pandas==3.1.1
+pytest==9.2.0

@@ -197,13 +197,17 @@ competition only, under the terms you accept at enrolment.
 
 ## How to reproduce our submission
 
+Python 3.11. Put the match data in `./data` (see `data/README.md`), then:
+
 ```bash
 pip install -r requirements-solution.txt          # numpy, pandas, pytest, pinned
-# put the match data in ./data (see data/README.md), then:
-python -m src.make_submission --out <team_name>.csv --dead signals
-python evaluation/validate_submission.py <team_name>.csv
-python -m src.presubmit <team_name>.csv --rerun "python -m src.make_submission --out <team_name>.csv --dead signals"
+python -m src.make_submission --out evaluation/results/cayyy.csv
+python evaluation/validate_submission.py evaluation/results/cayyy.csv
+python -m src.presubmit evaluation/results/cayyy.csv --rerun "python -m src.make_submission --out evaluation/results/cayyy.csv"
 python -m pytest tests -q
 ```
+
+The submitted file `cayyy.csv` has sha256
+`9c3738be1d482755c5b0aa4412f3c72a1807f121623f1f5a35518af32df750b2`.
 
 Method and limitations: [docs/technical_document.md](docs/technical_document.md).
